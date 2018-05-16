@@ -1,11 +1,12 @@
 ---
 title: "Geocomputation for active transport planning"
-subtitle: "🚲<br/>a case study of cycle network design"
+subtitle: "🚲<br/>a case study of cycle network design<br/>Slides: [github.com/Robinlovelace/erum18-transport](https://github.com/Robinlovelace/erum18-transport) "
 author: "Robin Lovelace"
 date: "`r Sys.Date()`"
+bibliography: references.bib
 output:
   xaringan::moon_reader:
-    lib_dir: libs
+    lib_dir: libs2
     nature:
       highlightStyle: github
       highlightLines: true
@@ -14,6 +15,16 @@ output:
 
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
+library(RefManageR)
+BibOptions(check.entries = FALSE, 
+           bib.style = "authoryear", 
+           cite.style = 'alphabetic', 
+           style = "markdown",
+           first.inits = FALSE,
+           hyperlink = FALSE, 
+           dashed = FALSE)
+my_bib = ReadBib("references.bib", check = FALSE)
+# [@lovelace_propensity_2017] [@lovelace_geocomputation_2018a]
 ```
 
 # whoami
@@ -68,7 +79,7 @@ class: center, bottom, inverse
 .pull-left[
 
 ```{r}
-knitr::include_graphics("transport-projections-ipcc.png")
+knitr::include_graphics("https://raw.githubusercontent.com/Robinlovelace/erum18-transport/master/transport-projections-ipcc.png")
 ```
 
 ]
@@ -141,8 +152,10 @@ knitr::include_graphics("https://raw.githubusercontent.com/ATFutures/who/master/
 ## Estimate cycling pontential: the Propensity to Cycle Tool - see [w](http://npct0.vs.mythic-beasts.com/shiny_interface/?r=west-yorkshire)[ww.pct.bike](www.pct.bike)
 
 Included in UK policy (CWIS) used by many local authorities (LCWIP)
+`r Citep(my_bib, "lovelace_propensity_2017", .opts = list(cite.style = "authoryear"))`
 
-```{r, echo=FALSE, out.width="80%"}
+
+```{r, echo=FALSE, out.width="70%"}
 knitr::include_graphics("https://raw.githubusercontent.com/npct/pct-team/master/figures/front-page-leeds-pct-demo.png")
 ```
 
@@ -195,6 +208,10 @@ DT::datatable(
 shiny::runGitHub("robinlovelace/erum18-transport")
 ```
 
+More on shiny-leaflet integration: [Section 9.5](http://geocompr.robinlovelace.net/adv-map.html#mapping-applications) in
+`r Citep(my_bib, "lovelace_geocomputation_2018a", .opts = list(cite.style = "authoryear"))`.
+
+
 ---
 
 # Some example shiny code
@@ -215,27 +232,78 @@ renderLeaflet({
 
 # Local routing
 
-```{r, eval="`r if(nchar(sys.getenv) == 32)`"}
-fr = stplanr::geo_code("Budapest airport")
-to = stplanr::geo_code("akvarium budapest")
-r = cyclestreets::journey(fr, to)
-mapview::mapview(r)
+.pull-left[
+
+```{r, eval=FALSE}
+fr = stplanr::geo_code(
+  "Budapest airport")
+to = stplanr::geo_code(
+  "akvarium budapest")
+install.packages("cyclestreets")
+r = journey(fr, to)
+```
+
+```{r, echo=FALSE}
+r = sf::read_sf("r.geojson")
+```
+
+```{r}
+# From Martin's workshop:
+library(tmap)
+bm = leaflet::providers
+bm_cycle = bm$Thunderforest.OpenCycleMap
+m = tm_shape(r) +
+  tm_lines(col = "busynance",
+           lwd = 5) +
+  tm_scale_bar()
 ```
 
 
+]
+
+.pull-right[
+
+See: [rpubs.com/RobinLovelace/389709](http://rpubs.com/RobinLovelace/389709)
+
+```{r, out.width="350", out.height="400", message=FALSE}
+tmap_leaflet(m)
+```
+
+]
+
 ---
 
+# Extracting data from routes
+
+```{r}
+r$distances[1:5]
+r$time[1:5]
+sum(r$time) / 3600
+```
+
+For something on remote routing see **stplanr** or **dodgr** packages.
+
+- Vignette on fast local routing: [cran.r-project.org/package=dodgr](https://cran.r-project.org/web/packages/dodgr/vignettes/dodgr.html)
+
+---
 class: center, middle
 
 # Thanks and safe 🚶, 🚲 +  🚀!
 
-Slid--
-
 - Reproducible slides + app: [github.com/Robinlovelace/erum18-transport](https://github.com/Robinlovelace/erum18-transport)
 
-es created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+- Transport chapter in Geocomputation with R (feedback welcome):
+[geocompr.robinlovelace.net](http://geocompr.robinlovelace.net/transport.html)
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
 
 ---
 class:small
 
-Test
+# References
+```{r, 'refs', results="asis", echo=FALSE}
+PrintBibliography(my_bib)
+```
+
+
+![](https://www.cyipt.bike/images/logo.png)
