@@ -190,12 +190,12 @@ DT::datatable(
 
 - Live demo...
 
-```{r}, eval=FALSE
-k# try it!
-hiny::runGitHub("robinlovelace/erum18-transport"))```
+```{r, eval=FALSE}
+# try it!
+shiny::runGitHub("robinlovelace/erum18-transport")
+```
 
-
---
+---
 
 # Some example shiny code
 
@@ -211,18 +211,29 @@ renderLeaflet({
 })
 ```
 
+---
 
---
+# Local routing
 
-## Local routing
+```{r, eval="`r if(nchar(sys.getenv) == 32)`"}
+fr = stplanr::geo_code("Budapest airport")
+to = stplanr::geo_code("akvarium budapest")
+r = cyclestreets::journey(fr, to)
+mapview::mapview(r)
+```
 
---
+
+---
 
 class: center, middle
 
 # Thanks and safe 🚶, 🚲 +  🚀!
 
-Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
+Slid--
+
+- Reproducible slides + app: [github.com/Robinlovelace/erum18-transport](https://github.com/Robinlovelace/erum18-transport)
+
+es created via the R package [**xaringan**](https://github.com/yihui/xaringan).
 
 ---
 class:small
