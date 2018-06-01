@@ -13,7 +13,7 @@ server = function(input, output) {
     
   output$map = renderLeaflet({
     m = tm_shape(getroads()) +
-      tm_lines(col = "red", lwd = 5) +
+      tm_lines(col = "maxspeed", lwd = 5, palette = "RdYlBu") +
       tm_shape(roads) +
       tm_lines()
     tmap_leaflet(m)
