@@ -19,3 +19,17 @@ server = function(input, output) {
     tmap_leaflet(m)
     })
 }
+
+# set-up code:
+# library(osmdata)
+# library(tmap)
+# tmap_mode("view")
+# f = "/tmp/roads.geojson"
+# if(!file.exists("f")) {
+#   roads = opq("South Ossetia") %>% 
+#     add_osm_feature("highway", "primary|secondary|tertiary", value_exact = FALSE) %>% 
+#     osmdata_sf()
+#   summary(roads$osm_lines$highway)
+#   sf::write_sf(roads$osm_lines, f)
+#   # file.rename("/tmp/roads.geojson", "~/repos/erum18-transport/roads.geojson")
+# }
