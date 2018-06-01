@@ -27,6 +27,28 @@ my_bib = ReadBib("references.bib", check = FALSE)
 # [@lovelace_propensity_2017] [@lovelace_geocomputation_2018a]
 ```
 
+# Outline
+
+.pull-left[
+
+##  The problem
+
+## Solutions
+
+## How R can help
+
+]
+
+--
+
+.pull-right[
+
+![](https://media.giphy.com/media/oedEsOtNFyODC/giphy.gif)
+
+]
+
+---
+
 # whoami
 
 .pull-left[
@@ -61,6 +83,7 @@ knitr::include_graphics("https://user-images.githubusercontent.com/1825120/39661
 ]
 
 ---
+
 class: inverse, center, middle
 
 # The problem
@@ -185,6 +208,9 @@ class: inverse, center, middle
 
 # How R can help
 
+An open source language for statistical computing
+`r Citep(my_bib, "rcoreteam_language_2018", .opts = list(cite.style = "authoryear"))`
+
 ---
 
 # Scalability
@@ -208,9 +234,13 @@ DT::datatable(
 shiny::runGitHub("robinlovelace/erum18-transport")
 ```
 
-More on shiny-leaflet integration: [Section 9.5](http://geocompr.robinlovelace.net/adv-map.html#mapping-applications) in
-`r Citep(my_bib, "lovelace_geocomputation_2018a", .opts = list(cite.style = "authoryear"))`.
+- More on shiny-leaflet integration: [Section 9.5](http://geocompr.robinlovelace.net/adv-map.html#mapping-applications) in
+`r Citep(my_bib, "lovelace_geocomputation_2018a", .opts = list(cite.style = "authoryear"))`
 
+- **stplanr**
+`r Citep(my_bib, "R-sf", .opts = list(cite.style = "authoryear"))`
+making use of **sf**
+`r Citep(my_bib, "R-stplanr", .opts = list(cite.style = "authoryear"))`
 
 ---
 
@@ -239,7 +269,8 @@ fr = stplanr::geo_code(
   "Budapest airport")
 to = stplanr::geo_code(
   "akvarium budapest")
-install.packages("cyclestreets")
+# install.packages("cyclestreets")
+library(cyclestreets)
 r = journey(fr, to)
 ```
 
@@ -278,7 +309,7 @@ tmap_leaflet(m)
 ```{r}
 r$distances[1:5]
 r$time[1:5]
-sum(r$time) / 3600
+sum(r$distances) / 1000
 ```
 
 For something on remote routing see **stplanr** or **dodgr** packages.
@@ -298,7 +329,7 @@ class: center, middle
 Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
 
 ---
-class:small
+class: small
 
 # References
 ```{r, 'refs', results="asis", echo=FALSE}
@@ -306,4 +337,11 @@ PrintBibliography(my_bib)
 ```
 
 
-![](https://www.cyipt.bike/images/logo.png)
+```{r, echo=FALSE, out.height="100", fig.show='hold'}
+knitr::include_graphics(
+  c(
+    "https://www.cyipt.bike/images/logo.png",
+    "https://raw.githubusercontent.com/cyipt/cyipt/master/figures/its-logo-square.png"
+    ))
+```
+
